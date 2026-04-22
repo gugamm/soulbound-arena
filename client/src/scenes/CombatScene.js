@@ -726,8 +726,11 @@ export default class CombatScene extends Phaser.Scene {
     // Player projectiles vs boss (if present, checked manually)
     // We'll handle boss overlap in update or via separate collider when boss spawns
 
-    // Enemy projectiles vs player
-    this.physics.add.overlap(this.enemyProjectiles, this.player, (proj, player) => {
+    // Enemy projectiles vs player. Phaser may swap callback arg order; pick
+    // whichever arg isn't the player, otherwise the hit handler's cleanup
+    // (setActive/setVisible(false), destroy) runs on the player itself.
+    this.physics.add.overlap(this.enemyProjectiles, this.player, (a, b) => {
+      const proj = a === this.player ? b : a;
       this._onEnemyProjectileHitPlayer(proj);
     });
 

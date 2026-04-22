@@ -48,7 +48,7 @@ Suites live in `test/`:
 
 - `test/calculate-damage.test.js` — pure damage-formula tests.
 - `test/damage-system.test.js` — contract tests for `Player.takeDamage`, including a regression test that damage must never make the player sprite invisible.
-- `test/projectile-hits-player.test.js` — **TDD failing suite** pinning down a known bug: when a monster's projectile hits the player, the player sprite disappears. Tests load `CombatScene._setupColliders`, capture the enemy-projectile-vs-player overlap callback, and invoke it with both argument orderings. They will turn green once the overlap callback is made order-agnostic (mirror the boss-collider pattern at `CombatScene.js:757`).
+- `test/projectile-hits-player.test.js` — regression suite for the enemy-projectile-vs-player overlap: captures the collider callback registered by `CombatScene._setupColliders` and invokes it with both argument orderings, asserting the player stays visible, active, and non-destroyed either way.
 
 ## Project Layout
 
