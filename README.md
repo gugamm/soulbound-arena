@@ -36,6 +36,20 @@ npm run dev
 
 - `PORT` — override the listen port (default `3333`).
 
+## Testing
+
+Core game logic is unit-tested under Node without a browser or a real Phaser runtime. A small ESM resolver hook (`test/helpers/resolver.mjs`) maps the browser-style `/shared/...` imports to filesystem paths, and a minimal Phaser global stub (`test/helpers/phaser-stub.js`) provides just enough of the Sprite / Math API for `Player` and friends to be instantiated under Node.
+
+```bash
+npm test
+```
+
+Suites live in `test/`:
+
+- `test/calculate-damage.test.js` — pure damage-formula tests.
+- `test/damage-system.test.js` — contract tests for `Player.takeDamage`, including a regression test that damage must never make the player sprite invisible.
+- `test/projectile-hits-player.test.js` — **TDD failing suite** pinning down a known bug: when a monster's projectile hits the player, the player sprite disappears. Tests load `CombatScene._setupColliders`, capture the enemy-projectile-vs-player overlap callback, and invoke it with both argument orderings. They will turn green once the overlap callback is made order-agnostic (mirror the boss-collider pattern at `CombatScene.js:757`).
+
 ## Project Layout
 
 ```

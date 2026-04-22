@@ -5,7 +5,8 @@
   "description": "2D roguelite co-op action game for up to 4 players",
   "scripts": {
     "start": "node server.js",
-    "dev": "node --watch server.js"
+    "dev": "node --watch server.js",
+    "test": "node --import ./test/setup.mjs --test test/**/*.test.js"
   },
   "dependencies": {
     "express": "^4.21.0",
